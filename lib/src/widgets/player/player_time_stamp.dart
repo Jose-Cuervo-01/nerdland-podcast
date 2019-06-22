@@ -41,7 +41,7 @@ class _PlayerTimeStampState extends State<PlayerTimeStamp> {
             style: Theme.of(context).textTheme.caption,
           );
         } else {
-          return Text('..');
+          return SizedBox();
         }
       },
     );
