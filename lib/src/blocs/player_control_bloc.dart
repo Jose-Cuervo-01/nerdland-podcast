@@ -5,17 +5,22 @@ import 'package:nerdland_podcast/src/models/podcast.dart';
 class PlayerControlBloc {
   FlutterSound _flutterSound = FlutterSound();
 
-  StreamController<PlayStatus> _playerStatusController = StreamController();
-  StreamController<bool> _isPlayingController = StreamController();
+  StreamController<PlayStatus> _playerStatusController =
+      StreamController.broadcast();
+  StreamController<bool> _isPlayingController = StreamController.broadcast();
   // The currently selected podcast
   // NOTE: this could be a string to just keep track of the url
   // But if we keep track of the Podcast we have acces to the title
   // to display in the player controls section
-  StreamController<Podcast> _currentlyPlayingController = StreamController();
+  StreamController<Podcast> _currentlyPlayingController =
+      StreamController.broadcast();
 
-  Stream<PlayStatus> get playStatus$ => _playerStatusController.stream;
-  Stream<bool> get isPlaying$ => _isPlayingController.stream;
-  Stream<Podcast> get currentlyPlaying$ => _currentlyPlayingController.stream;
+  Stream<PlayStatus> get playStatus$ =>
+      _playerStatusController.stream.asBroadcastStream();
+  Stream<bool> get isPlaying$ =>
+      _isPlayingController.stream.asBroadcastStream();
+  Stream<Podcast> get currentlyPlaying$ =>
+      _currentlyPlayingController.stream.asBroadcastStream();
 
   Podcast _podcast;
 
