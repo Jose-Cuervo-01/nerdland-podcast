@@ -24,10 +24,11 @@ class PlayerControlBloc {
 
   Podcast _podcast;
 
-  void select(Podcast podcast) {
+  void selectAndPlay(Podcast podcast) {
     print('Podcast with title ${podcast.title} was selected');
     _podcast = podcast;
     _currentlyPlayingController.add(_podcast);
+    play();
   }
 
   void play() async {
