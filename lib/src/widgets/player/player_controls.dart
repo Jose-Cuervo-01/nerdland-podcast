@@ -5,12 +5,7 @@ import 'package:nerdland_podcast/src/widgets/player/player_control_title.dart';
 import 'package:nerdland_podcast/src/widgets/player/player_time_stamp.dart';
 import 'package:nerdland_podcast/src/widgets/player/progress_slider.dart';
 
-class PlayerControls extends StatefulWidget {
-  @override
-  _PlayerControlsState createState() => _PlayerControlsState();
-}
-
-class _PlayerControlsState extends State<PlayerControls> {
+class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
