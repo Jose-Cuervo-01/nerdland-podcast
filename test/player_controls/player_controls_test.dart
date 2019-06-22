@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:nerdland_podcast/src/blocs/player_control_bloc.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_button.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_control_title.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_controls.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_time_stamp.dart';
-import 'package:nerdland_podcast/src/widgets/player/progress_slider.dart';
 import 'package:provider/provider.dart';
+
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:nerdland_podcast/src/blocs/player_control_bloc.dart';
+import 'package:nerdland_podcast/src/widgets/player/index.dart';
 
 void main() {
   group('Displays Player controls children', () {

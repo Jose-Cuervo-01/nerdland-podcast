@@ -25,8 +25,6 @@ class _ProgressSliderState extends State<ProgressSlider> {
 
   @override
   Widget build(BuildContext context) {
-    PlayerControlBloc playerState = Provider.of<PlayerControlBloc>(context);
-
     return StreamBuilder(
       stream: _playerControlBloc.playStatus$,
       builder: (context, AsyncSnapshot<PlayStatus> snapshot) {
@@ -37,7 +35,7 @@ class _ProgressSliderState extends State<ProgressSlider> {
             value: snapshot.data.currentPosition / snapshot.data.duration,
             onChanged: (sliderValue) {
               int timeToSnapTo = (snapshot.data.duration * sliderValue).toInt();
-              playerState.seek(timeToSnapTo);
+              _playerControlBloc.seek(timeToSnapTo);
             },
           );
         } else {

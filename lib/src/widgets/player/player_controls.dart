@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nerdland_podcast/src/widgets/marquee_widget.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_button.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_control_title.dart';
-import 'package:nerdland_podcast/src/widgets/player/player_time_stamp.dart';
-import 'package:nerdland_podcast/src/widgets/player/progress_slider.dart';
+import 'package:nerdland_podcast/src/widgets/player/index.dart';
+
 
 class PlayerControls extends StatelessWidget {
   @override
