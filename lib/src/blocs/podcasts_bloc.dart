@@ -1,19 +1,19 @@
 import 'dart:async';
 
+import 'package:http/http.dart' as http;
+import 'package:rxdart/rxdart.dart';
+
 import 'package:nerdland_podcast/src/models/podcast.dart';
 import 'package:nerdland_podcast/src/services/podcast_service.dart';
-import 'package:http/http.dart' as http;
 
 class PodcastsBloc {
   List<Podcast> _podcasts;
 
   PodcastService _podcastService = PodcastService(client: http.Client());
 
-  StreamController<List<Podcast>> _podcastsController =
-      StreamController.broadcast();
+  BehaviorSubject<List<Podcast>> _podcastsController = BehaviorSubject();
 
-  Stream<List<Podcast>> get podcasts$ =>
-      _podcastsController.stream.asBroadcastStream();
+  Stream<List<Podcast>> get podcasts$ => _podcastsController.stream;
 
   PodcastsBloc() {
     fetchPodcasts();

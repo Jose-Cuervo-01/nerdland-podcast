@@ -1,28 +1,38 @@
 import 'dart:async';
+
+import 'package:rxdart/rxdart.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:nerdland_podcast/src/models/podcast.dart';
 
 class PlayerControlBloc {
   FlutterSound _flutterSound = FlutterSound();
 
-  StreamController<PlayStatus> _playerStatusController =
-      StreamController.broadcast();
-  StreamController<bool> _isPlayingController = StreamController.broadcast();
+  BehaviorSubject<PlayStatus> _playerStatusController = BehaviorSubject();
+  BehaviorSubject<bool> _isPlayingController = BehaviorSubject();
   // The currently selected podcast
   // NOTE: this could be a string to just keep track of the url
   // But if we keep track of the Podcast we have acces to the title
   // to display in the player controls section
-  StreamController<Podcast> _currentlyPlayingController =
-      StreamController.broadcast();
+  BehaviorSubject<Podcast> _currentlyPlayingController = BehaviorSubject();
 
-  Stream<PlayStatus> get playStatus$ =>
-      _playerStatusController.stream.asBroadcastStream();
-  Stream<bool> get isPlaying$ =>
-      _isPlayingController.stream.asBroadcastStream();
-  Stream<Podcast> get currentlyPlaying$ =>
-      _currentlyPlayingController.stream.asBroadcastStream();
+  StreamController<double> _currentlyVolume = StreamController.broadcast();
+
+  Stream<PlayStatus> get playStatus$ => _playerStatusController.stream;
+  Stream<bool> get isPlaying$ => _isPlayingController.stream;
+  Stream<Podcast> get currentlyPlaying$ => _currentlyPlayingController.stream;
+  Stream<double> get currentlyVolume$ {
+    return _currentlyVolume.stream;
+  }
 
   Podcast _podcast;
+  double _volume = 1.0;
+
+  void select(Podcast podcast) {
+    print('Podcast with title ${podcast.title} was selected');
+    _podcast = podcast;
+    _currentlyPlayingController.add(_podcast);
+    _currentlyVolume.add(_volume);
+  }
 
   void selectAndPlay(Podcast podcast) {
     print('Podcast with title ${podcast.title} was selected');
@@ -38,6 +48,7 @@ class PlayerControlBloc {
     _flutterSound.onPlayerStateChanged.listen((playStatus) {
       _playerStatusController.add(playStatus);
     });
+    setVolume(_volume);
   }
 
   void stop() async {
@@ -53,6 +64,12 @@ class PlayerControlBloc {
     await _flutterSound.pausePlayer();
   }
 
+  void setVolume(double volume) async {
+    await _flutterSound.setVolume(volume);
+    _volume = volume;
+    _currentlyVolume.add(_volume);
+  }
+
   void dispose() {
     _playerStatusController.stream.drain();
     _playerStatusController.close();
@@ -60,5 +77,7 @@ class PlayerControlBloc {
     _isPlayingController.close();
     _currentlyPlayingController.stream.drain();
     _currentlyPlayingController.close();
+    _currentlyVolume.stream.drain();
+    _currentlyVolume.close();
   }
 }
