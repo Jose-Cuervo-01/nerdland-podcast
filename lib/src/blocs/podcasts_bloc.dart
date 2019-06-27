@@ -8,7 +8,6 @@ import 'package:nerdland_podcast/src/services/podcast_service.dart';
 
 class PodcastsBloc {
   List<Podcast> _podcasts;
-
   PodcastService _podcastService = PodcastService(client: http.Client());
 
   BehaviorSubject<List<Podcast>> _podcastsController = BehaviorSubject();
