@@ -18,12 +18,6 @@ class _PlayerTimeStampState extends State<PlayerTimeStamp> {
   }
 
   @override
-  void dispose() {
-    _playerControlBloc.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: _playerControlBloc.playStatus$,
@@ -35,13 +29,12 @@ class _PlayerTimeStampState extends State<PlayerTimeStamp> {
                   .toInt();
           int minutesLeft = millisecondsLeft ~/ 60000;
 
-          // TODO: Move to ThemeBuilder
           return Text(
             '$minutesLeft min left',
             style: Theme.of(context).textTheme.caption,
           );
         } else {
-          return SizedBox();
+          return Container(color: Colors.pink,);
         }
       },
     );

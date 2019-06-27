@@ -65,7 +65,7 @@ void main() {
           builder: (_) => PlayerControlBloc(),
           child: MaterialApp(
             home: Scaffold(
-              body: ProgressSlider(),
+              body: ProgressSlider(color: Colors.blue,),
             ),
           ),
         ),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nerdland_podcast/src/blocs/player_control_bloc.dart';
 import 'package:provider/provider.dart';
 
-class PlayerButton extends StatefulWidget {
+class PlayerButtonLarge extends StatefulWidget {
   @override
-  _PlayerButtonState createState() => _PlayerButtonState();
+  _PlayerButtonLargeState createState() => _PlayerButtonLargeState();
 }
 
-class _PlayerButtonState extends State<PlayerButton> {
+class _PlayerButtonLargeState extends State<PlayerButtonLarge> {
   PlayerControlBloc _playerControlBloc;
 
   @override
@@ -18,18 +18,17 @@ class _PlayerButtonState extends State<PlayerButton> {
 
   @override
   Widget build(BuildContext context) {
-      return StreamBuilder(
+    return StreamBuilder(
       stream: _playerControlBloc.isPlaying$,
-      initialData: false,
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        return IconButton(
-          iconSize: 22.0,
-          color: Colors.white,
-          icon: snapshot.data == true
+        return FloatingActionButton(
+          backgroundColor: Theme.of(context).accentColor,
+          isExtended: true,
+          child: snapshot?.data ?? false == true
               ? Icon(Icons.pause)
               : Icon(Icons.play_arrow),
           onPressed: () {
-            if (snapshot.data) {
+            if (snapshot?.data ?? false) {
               _pause();
             } else {
               _play();

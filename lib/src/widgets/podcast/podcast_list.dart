@@ -1,7 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:nerdland_podcast/src/models/podcast.dart';
+import 'package:nerdland_podcast/src/theme/colors.dart';
 import 'package:nerdland_podcast/src/widgets/podcast/podcast_item.dart';
 
 class PodcastList extends StatefulWidget {
@@ -43,11 +42,19 @@ class _PodcastListState extends State<PodcastList> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text('Available episodes'),
+        Text(
+          'Beschikbare podcasts',
+          style: TextStyle(
+            color: kAccentColor,
+            letterSpacing: 0,
+            fontWeight: FontWeight.w400
+          ),
+
+        ),
         IconButton(
           icon: Icon(
             Icons.sort,
-            color: sortedByOldest ? Colors.blue : Colors.pink,
+            color: sortedByOldest ? Theme.of(context).primaryColor : Theme.of(context).accentColor,
           ),
           onPressed: () {
             sortedByOldest = !sortedByOldest;
@@ -57,9 +64,7 @@ class _PodcastListState extends State<PodcastList> {
                     ? p1.isoDate.compareTo(p2.isoDate)
                     : p2.isoDate.compareTo(p1.isoDate),
               );
-            setState(() {
-              podcasts = sorted;
-            });
+            setState(() => podcasts = sorted);
           },
         ),
       ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nerdland_podcast/src/widgets/marquee_widget.dart';
 import 'package:nerdland_podcast/src/widgets/player/index.dart';
 
-
 class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,18 +9,21 @@ class PlayerControls extends StatelessWidget {
       children: <Widget>[
         Flexible(
           flex: 1,
-          child: ProgressSlider(),
+          child: ProgressSlider(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
         Flexible(
           flex: 9,
-          child: playerControls,
+          child: _buildPlayerControls(context),
         ),
       ],
     );
   }
 
-  Widget get playerControls {
+  Widget _buildPlayerControls(BuildContext context) {
     return Container(
+      color: Theme.of(context).primaryColor,
       padding: EdgeInsets.symmetric(horizontal: 15.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,25 +1,37 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nerdland_podcast/src/blocs/player_control_bloc.dart';
 import 'package:nerdland_podcast/src/models/podcast.dart';
 import 'package:nerdland_podcast/src/screens/podcast_details.dart';
 import 'package:provider/provider.dart';
 
-class PodcastItem extends StatelessWidget {
+class PodcastItem extends StatefulWidget {
   final Podcast podcast;
 
   PodcastItem({Key key, @required this.podcast}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    PlayerControlBloc _playerControlBloc =
-        Provider.of<PlayerControlBloc>(context);
+  _PodcastItemState createState() => _PodcastItemState();
+}
 
+class _PodcastItemState extends State<PodcastItem> {
+  PlayerControlBloc _playerControlBloc;
+
+  @override
+  void didChangeDependencies() async {
+    _playerControlBloc = Provider.of<PlayerControlBloc>(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        _playerControlBloc.select(widget.podcast);
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => PodcastDetails(podcast: podcast),
+            builder: (_) => PodcastDetails(podcast: widget.podcast),
           ),
         );
       },
@@ -39,38 +51,27 @@ class PodcastItem extends StatelessWidget {
                   child: FadeInImage.assetNetwork(
                     fadeInDuration: const Duration(milliseconds: 350),
                     placeholder: 'assets/images/placeholder.jpg',
-                    image: podcast.itunes.image,
+                    image: widget.podcast.itunes.image,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
-            Flexible(
-              flex: 7,
+            Expanded(
+              flex: 8,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   _buildPodcastTitle(context),
-                  // TODO: Move text themes to a ThemeBuilder
                   Text(
-                    _formatDate(podcast.isoDate).toUpperCase(),
+                    _formatDate(widget.podcast.isoDate).toUpperCase(),
                     style: Theme.of(context).textTheme.caption.copyWith(
                           wordSpacing: 2.5,
                           color: Colors.black26,
                           fontSize: 11.0,
                         ),
-                  )
+                  ),
                 ],
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: IconButton(
-                icon: Icon(Icons.play_circle_outline),
-                onPressed: () => _playerControlBloc.selectAndPlay(podcast),
-                color: Theme.of(context).iconTheme.color.withOpacity(0.25),
               ),
             ),
           ],
@@ -79,20 +80,20 @@ class PodcastItem extends StatelessWidget {
     );
   }
 
-  Text _buildPodcastTitle(BuildContext context) {
-    return Text(
-      podcast.title,
-      style: Theme.of(context)
-          .textTheme
-          .subhead
-          .copyWith(fontWeight: FontWeight.w600),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
+  Widget _buildPodcastTitle(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 3.0),
+      child: Text(
+        widget.podcast.title.split('Nerdland').last.trim(),
+        style: Theme.of(context).textTheme.subhead,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
   String _formatDate(DateTime dateUploaded) {
     var difference = DateTime.now().difference(dateUploaded);
-    return '${difference.inDays} dagen geleden';
+    return '${difference.inDays} ${difference.inDays == 1 ? 'dag' : 'dagen'} geleden';
   }
 }

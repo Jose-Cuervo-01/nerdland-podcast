@@ -18,25 +18,23 @@ class _PlayerControlTitleState extends State<PlayerControlTitle> {
   }
 
   @override
-  void dispose() {
-    _playerControlBloc.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: _playerControlBloc.currentlyPlaying$,
       builder: (BuildContext context, AsyncSnapshot<Podcast> snapshot) {
         if (snapshot.hasData) {
           String podcastTitle = snapshot.data.title;
-          // TODO: Move to ThemeBuilder
           return Text(
             '$podcastTitle',
             style: Theme.of(context).textTheme.body1,
           );
         } else {
-          return Text('..');
+          return Text(
+            'Selecteer een podcast',
+            style: TextStyle(
+              color: !snapshot.hasData ? Colors.grey : null,
+            ),
+          );
         }
       },
     );
