@@ -12,12 +12,13 @@ class PodcastService {
   int port;
 
   PodcastService({@required this.client}) {
-    url = Constants.debugBackendUrl;
+    url = Constants.productionBackendUrl;
     port = Constants.backendPort;
   }
 
   Future<List<Podcast>> fetchPodcasts() async {
-    final response = await client.get('$url:$port/podcasts');
+    final response = await client.get('$url/podcasts');
+    // final response = await client.get('$url:$port/podcasts');
     Future<List<Podcast>> podcastsFuture;
     if (response.statusCode == 200) {
       podcastsFuture = compute(parsePodcasts, response.body);
