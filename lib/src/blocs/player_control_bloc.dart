@@ -56,7 +56,9 @@ class PlayerControlBloc {
   }
 
   void stop() async {
-    await _flutterSound.stopPlayer();
+    if (_flutterSound.isPlaying == true) {
+      await _flutterSound.stopPlayer();
+    }
     _isPlayingController.add(false);
     _currentlyPlayingController.drain();
   }

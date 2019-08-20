@@ -2,6 +2,9 @@
 
 Nerdland Podcast application to listen to the [Nerdland Podcasts](https://podcasts.apple.com/be/podcast/nerdland-maandoverzicht-wetenschap-en-technologie/id1217629669). The app is mainly created to get used to more advanced state management in `Flutter`. The project makes use of the `Provider` package.
 
+## Showcase
+![Showcase](showcase/showcase.gif) 
+
 ## Project
 This project is mainly focused for Flutter developers who would like get used to more advanced state management.
 So in short this project contains following use cases:
